@@ -13,6 +13,26 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sonarqube-api</name>
 	<description>sonarqube api </description>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<enviroment>dev</enviroment>
+			</properties>
+		</profile>
+		<profile>
+			<id>stg</id>
+			<properties>
+				<enviroment>stg</enviroment>
+			</properties>
+		</profile>
+		<profile>
+			<id>prd</id>
+			<properties>
+				<enviroment>prd</enviroment>
+			</properties>
+		</profile>
+	</profiles>
 	<properties>
 		<java.version>11</java.version>
 		<maven.test.skip>true</maven.test.skip>
@@ -28,12 +48,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--swagger ui-->
+		<!--swagger ui
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.0.0</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -46,9 +66,32 @@
 			<artifactId>sonar-maven-plugin</artifactId>
 			<version>3.2</version>
 		</dependency>
+
+		<!--환경별 빌드를 위해 추가-->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>1.9.3</version>
+		</dependency>
+
+		<!--Mybatis-->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.5.6</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>application-${enviroment}.properties</include>
+				</includes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
